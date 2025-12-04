@@ -1,114 +1,184 @@
-# Tabla Estadística (Statistical Table)
+# Algoritmos de Machine Learning - Regresión Lineal
 
-A modern web application for statistical data analysis and visualization built with React and TypeScript.
+Aplicación web moderna para análisis y visualización de datos mediante regresión lineal, construida con React y TypeScript. Este proyecto es parte de la asignatura **Tecnologías Emergentes** del programa de Ingeniería en Sistemas Informáticos de la Universidad del Valle (2025).
 
-## Features
+## 📋 Descripción del Proyecto
 
-- **Interactive Data Management**
-  - Add, edit, and remove numerical data points
-  - Responsive grid layout for data input
-  - Real-time validation and error handling
-  - Bulk data operations (clear, edit)
+Esta aplicación implementa un análisis completo de **regresión lineal paso a paso**, permitiendo a los usuarios:
+- Ingresar datos de pares (X, Y) de forma manual o mediante carga de archivos Excel
+- Visualizar los datos mediante gráficos de dispersión
+- Calcular automáticamente los parámetros de la regresión lineal
+- Obtener resultados detallados incluyendo la ecuación de la recta, coeficientes y correlación
+- Realizar predicciones basadas en el modelo generado
+- Ver la línea de regresión ajustada a los datos
 
-- **Statistical Analysis Methods**
-  - Simple Inspection
-  - Arbitrary Distribution
-  - Sturges Method
-  - Maximum Integer Method
+## ✨ Características Principales
 
-- **Real-time Statistics**
-  - Total number of inputs
-  - Average value calculation
-  - Minimum and maximum values
-  - Dynamic updates as data changes
+- **Ingreso Flexible de Datos**
+  - Entrada manual de datos mediante área de texto
+  - Carga de archivos Excel (.xlsx)
+  - Validación en tiempo real
+  - Visualización inmediata de los datos cargados
 
-## Technology Stack
+- **Análisis de Regresión Lineal**
+  - Cálculo automático de parámetros (pendiente e intersección)
+  - Tabla detallada de cálculos paso a paso
+  - Coeficiente de correlación de Pearson
+  - Coeficiente de determinación (R²)
+  - Generación automática de la ecuación de la recta
 
-- **Frontend Framework**: React with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS with custom theming
-- **State Management**: Zustand
-- **Form Handling**: React Hook Form with Zod validation
-- **UI Components**: Radix UI primitives with shadcn/ui
-- **Icons**: Lucide React
+- **Visualizaciones Interactivas**
+  - Gráfico de dispersión de datos originales
+  - Línea de regresión ajustada
+  - Gráfico de predicción con punto estimado
 
-## Getting Started
+- **Predicciones**
+  - Formulario para ingresar valores X
+  - Cálculo automático de valores Y predichos
+  - Visualización del punto predicho en el gráfico
 
-### Prerequisites
+## 🛠️ Stack Tecnológico
 
-- Node.js (Latest LTS version recommended)
-- npm or bun package manager
+- **Framework Frontend**: React 19 con TypeScript
+- **Herramienta de Build**: Vite
+- **Estilización**: Tailwind CSS 4 con tema personalizado
+- **Gestión de Estado**: Zustand
+- **Manejo de Formularios**: React Hook Form con validación Zod
+- **Componentes UI**: Radix UI + shadcn/ui
+- **Gráficos**: Recharts
+- **Iconografía**: Lucide React
+- **Precisión Numérica**: Decimal.js
+- **Notificaciones**: Sonner
 
-### Installation
+## 🚀 Inicio Rápido
 
-1. Clone the repository:
+### Requisitos Previos
+
+- Node.js (versión LTS recomendada)
+- npm o bun como gestor de paquetes
+
+### Instalación
+
+1. Clonar el repositorio:
 ```bash
 git clone [repository-url]
-cd estadistica
+cd algoritmos-machine-learning
 ```
 
-2. Install dependencies:
+2. Instalar dependencias:
 ```bash
-# Using npm
 npm install
-
-# Using bun
-bun install
 ```
 
-3. Start the development server:
+3. Iniciar el servidor de desarrollo:
 ```bash
-# Using npm
 npm run dev
-
-# Using bun
-bun dev
 ```
 
-The application will be available at `http://localhost:3000`
+La aplicación estará disponible en `http://localhost:3000`
 
-## Project Structure
+## 📁 Estructura del Proyecto
 
 ```
-estadistica/
+algoritmos-machine-learning/
 ├── src/
-│   ├── components/     # UI components
-│   │   ├── forms/     # Form components
-│   │   └── ui/        # Reusable UI components
-│   ├── store/         # State management
-│   ├── hooks/         # Custom React hooks
-│   └── lib/          # Utility functions
-├── public/           # Static assets
-└── [configuration files]
+│   ├── components/
+│   │   ├── forms/              # Componentes de formularios
+│   │   │   ├── calculate-form.tsx
+│   │   │   ├── excel-upload-form.tsx
+│   │   │   ├── text-area-data-form.tsx
+│   │   │   └── upload-data-form.tsx
+│   │   ├── ui/                 # Componentes UI reutilizables
+│   │   ├── regression-data-display.tsx
+│   │   ├── regression-results-display.tsx
+│   │   ├── scatter-charts.tsx
+│   │   └── prediction-form.tsx
+│   ├── store/                  # Gestión de estado (Zustand)
+│   │   ├── regression-store.ts
+│   │   └── data-store.ts
+│   ├── hooks/                  # Hooks personalizados
+│   ├── lib/                    # Funciones utilitarias
+│   │   ├── linear-regression.ts # Algoritmo de regresión lineal
+│   │   ├── calculations.ts
+│   │   └── utils.ts
+│   └── App.tsx
+├── public/                     # Activos estáticos
+└── [archivos de configuración]
 ```
 
-## Features in Detail
+## 💡 Detalles de las Características
 
-### Data Input System
-- Grid-based interface for easy data entry
-- Individual data point editing
-- Hover-to-delete functionality
-- Input validation with error messages
+### Sistema de Ingreso de Datos
+- Entrada de datos manual mediante área de texto (formato: X,Y por línea)
+- Carga de archivos Excel con pares de datos
+- Validación automática de formato
+- Mensajes de error claros para datos inválidos
+- Visualización inmediata en tabla
 
-### Statistical Analysis
-- Multiple analysis methods to choose from
-- Real-time statistical calculations
-- Data visualization options
+### Algoritmo de Regresión Lineal
+El algoritmo implementa el método de **mínimos cuadrados** que calcula:
+- **n**: Número de observaciones
+- **ΣX, ΣY**: Sumas de valores
+- **ΣX², ΣY², ΣXY**: Sumas de productos
+- **X̄, Ȳ**: Medias de X e Y
+- **b₁** (pendiente): Coeficiente angular de la recta
+- **b₀** (intersección): Punto de corte con el eje Y
+- **r** (coeficiente de Pearson): Medida de correlación lineal
+- **R²** (coeficiente de determinación): Bondad de ajuste
 
-### User Interface
-- Modern and clean design
-- Responsive layout for all screen sizes
-- Dark mode support
-- Accessible components
+### Interfaz de Usuario
+- Diseño moderno y limpio
+- Responsive para todos los tamaños de pantalla
+- Componentes accesibles
+- Tema personalizado con Tailwind CSS
 
-## Development
+## 🧑‍💻 Desarrollo
 
-### Available Scripts
+### Scripts Disponibles
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+- `npm run dev` - Inicia el servidor de desarrollo (puerto 3000)
+- `npm run build` - Compila la aplicación para producción
+- `npm run preview` - Vista previa del build de producción
+- `npm run lint` - Ejecuta ESLint para verificar la calidad del código
+
+## 🎓 Información Académica
+
+**Asignatura**: Tecnologías Emergentes  
+**Programa**: Ingeniería en Sistemas Informáticos  
+**Institución**: Universidad del Valle  
+**Semestre**: 6to Semestre  
+**Año**: 2025
+
+## 👥 Integrantes
+
+Los integrantes del proyecto se muestran en la interfaz principal de la aplicación.
+
+## 📋 Requisitos Cumplidos
+
+✅ Implementación de algoritmo de regresión lineal  
+✅ Interfaz gráfica interactiva  
+✅ Entrada flexible de datos (texto y Excel)  
+✅ Visualización de datos mediante gráficos  
+✅ Cálculos paso a paso con precisión numérica  
+✅ Predicciones basadas en el modelo  
+✅ Código limpio y bien estructurado  
+✅ Validación de datos en tiempo real  
+
+## 📝 Notas de Implementación
+
+- Se utiliza **Decimal.js** para garantizar precisión en cálculos numéricos
+- La aplicación maneja casos especiales y valida los datos de entrada
+- Los gráficos son interactivos y se actualizan automáticamente
+- El estado global se gestiona con Zustand para mantenibilidad
+- Los formularios utilizan React Hook Form para mejor manejo y validación
+
+## 📄 Licencia
+
+Este proyecto es una práctica académica universitaria.
+
+---
+
+**Nota**: Para más información sobre regresión lineal y sus aplicaciones en machine learning, consulte los recursos académicos en la documentación del curso de Tecnologías Emergentes.
 
 ### Contributing
 

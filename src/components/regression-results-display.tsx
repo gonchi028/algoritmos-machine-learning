@@ -1,4 +1,6 @@
 import { Decimal } from "decimal.js";
+import 'katex/dist/katex.min.css';
+import { InlineMath, BlockMath } from 'react-katex';
 import {
   Table,
   TableBody,
@@ -30,9 +32,11 @@ export const RegressionResultsDisplay = () => {
         <h2 className="mb-2 text-center text-xl font-medium text-blue-800">
           Ecuación de Regresión Lineal
         </h2>
-        <p className="text-center text-3xl font-bold text-blue-600">{result.equation}</p>
+        <div className="text-center text-3xl font-bold text-blue-600">
+          <BlockMath math={`\\hat{y} = ${formatNumber(result.b1, 6)}x ${result.b0 >= 0 ? '+' : '-'} ${formatNumber(Math.abs(result.b0), 6)}`} />
+        </div>
         <p className="mt-2 text-center text-sm text-blue-600">
-          Donde ŷ es el valor predicho de Y para un valor dado de X
+          Donde <InlineMath math="\hat{y}" /> es el valor predicho de Y para un valor dado de X
         </p>
       </div>
 
@@ -54,7 +58,7 @@ export const RegressionResultsDisplay = () => {
               Paso 1: Tabla de Cálculos
             </h3>
             <p className="mb-4 text-sm text-gray-600">
-              Para cada par de datos (Xᵢ, Yᵢ), calculamos Xᵢ², Yᵢ² y Xᵢ·Yᵢ
+              Para cada par de datos <InlineMath math="(X_i, Y_i)" />, calculamos <InlineMath math="X_i^2" />, <InlineMath math="Y_i^2" /> y <InlineMath math="X_i \cdot Y_i" />
             </p>
             <div className="overflow-x-auto">
               <Table>
@@ -64,11 +68,11 @@ export const RegressionResultsDisplay = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="text-center">i</TableHead>
-                    <TableHead className="text-center">Xᵢ</TableHead>
-                    <TableHead className="text-center">Yᵢ</TableHead>
-                    <TableHead className="text-center">Xᵢ²</TableHead>
-                    <TableHead className="text-center">Yᵢ²</TableHead>
-                    <TableHead className="text-center">Xᵢ · Yᵢ</TableHead>
+                    <TableHead className="text-center"><InlineMath math="X_i" /></TableHead>
+                    <TableHead className="text-center"><InlineMath math="Y_i" /></TableHead>
+                    <TableHead className="text-center"><InlineMath math="X_i^2" /></TableHead>
+                    <TableHead className="text-center"><InlineMath math="Y_i^2" /></TableHead>
+                    <TableHead className="text-center"><InlineMath math="X_i \cdot Y_i" /></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -114,27 +118,27 @@ export const RegressionResultsDisplay = () => {
             </h3>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
               <div className="rounded-lg bg-gray-50 p-3 text-center">
-                <p className="text-sm text-gray-500">n (cantidad de datos)</p>
+                <p className="text-sm text-gray-500"><InlineMath math="n" /> (cantidad de datos)</p>
                 <p className="text-xl font-bold">{result.n}</p>
               </div>
               <div className="rounded-lg bg-gray-50 p-3 text-center">
-                <p className="text-sm text-gray-500">ΣX</p>
+                <p className="text-sm text-gray-500"><InlineMath math="\sum X" /></p>
                 <p className="text-xl font-bold">{result.sumX}</p>
               </div>
               <div className="rounded-lg bg-gray-50 p-3 text-center">
-                <p className="text-sm text-gray-500">ΣY</p>
+                <p className="text-sm text-gray-500"><InlineMath math="\sum Y" /></p>
                 <p className="text-xl font-bold">{result.sumY}</p>
               </div>
               <div className="rounded-lg bg-gray-50 p-3 text-center">
-                <p className="text-sm text-gray-500">ΣX²</p>
+                <p className="text-sm text-gray-500"><InlineMath math="\sum X^2" /></p>
                 <p className="text-xl font-bold">{result.sumXSquared}</p>
               </div>
               <div className="rounded-lg bg-gray-50 p-3 text-center">
-                <p className="text-sm text-gray-500">ΣY²</p>
+                <p className="text-sm text-gray-500"><InlineMath math="\sum Y^2" /></p>
                 <p className="text-xl font-bold">{result.sumYSquared}</p>
               </div>
               <div className="rounded-lg bg-gray-50 p-3 text-center">
-                <p className="text-sm text-gray-500">ΣXY</p>
+                <p className="text-sm text-gray-500"><InlineMath math="\sum XY" /></p>
                 <p className="text-xl font-bold">{result.sumXY}</p>
               </div>
             </div>
@@ -145,69 +149,43 @@ export const RegressionResultsDisplay = () => {
             <h3 className="mb-4 text-lg font-semibold text-gray-800">
               Paso 3: Medias
             </h3>
-            <div className="mb-4 space-y-2 rounded-lg bg-blue-50 p-4 text-sm">
-              <p>
-                <strong>Media de X (x̄):</strong> ΣX / n = {result.sumX} /{" "}
-                {result.n} = <strong>{result.meanX}</strong>
-              </p>
-              <p>
-                <strong>Media de Y (ȳ):</strong> ΣY / n = {result.sumY} /{" "}
-                {result.n} = <strong>{result.meanY}</strong>
-              </p>
+            <div className="mb-4 space-y-4 rounded-lg bg-blue-50 p-4 text-sm">
+              <div>
+                <strong>Media de X <InlineMath math="(\bar{x})" />:</strong>{" "}
+                <InlineMath math={`\\bar{x} = \\frac{\\sum X}{n} = \\frac{${result.sumX}}{${result.n}} = ${result.meanX}`} />
+              </div>
+              <div>
+                <strong>Media de Y <InlineMath math="(\bar{y})" />:</strong>{" "}
+                <InlineMath math={`\\bar{y} = \\frac{\\sum Y}{n} = \\frac{${result.sumY}}{${result.n}} = ${result.meanY}`} />
+              </div>
             </div>
           </div>
 
           {/* Step 4: Calculate Slope (b1) */}
           <div className="rounded-lg border p-4">
             <h3 className="mb-4 text-lg font-semibold text-gray-800">
-              Paso 4: Pendiente (b₁)
+              Paso 4: Pendiente <InlineMath math="(b_1)" />
             </h3>
             <div className="space-y-3 text-sm">
               <p className="font-medium">Fórmula:</p>
-              <div className="rounded-lg bg-yellow-50 p-4">
-                <p className="text-center font-mono">
-                  b₁ = (n · ΣXY - ΣX · ΣY) / (n · ΣX² - (ΣX)²)
-                </p>
+              <div className="rounded-lg bg-yellow-50 p-4 text-center">
+                <BlockMath math="b_1 = \frac{n \cdot \sum XY - \sum X \cdot \sum Y}{n \cdot \sum X^2 - (\sum X)^2}" />
               </div>
               <p className="font-medium">Sustitución:</p>
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-center font-mono">
-                  b₁ = ({result.n} × {result.sumXY} - {result.sumX} ×{" "}
-                  {result.sumY}) / ({result.n} × {result.sumXSquared} -{" "}
-                  {result.sumX}²)
-                </p>
+              <div className="rounded-lg bg-gray-50 p-4 text-center">
+                <BlockMath math={`b_1 = \\frac{${result.n} \\times ${result.sumXY} - ${result.sumX} \\times ${result.sumY}}{${result.n} \\times ${result.sumXSquared} - ${result.sumX}^2}`} />
               </div>
               <p className="font-medium">Numerador:</p>
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-center">
-                  {result.n} × {result.sumXY} - {result.sumX} × {result.sumY} ={" "}
-                  {formatNumber(result.n * result.sumXY)} -{" "}
-                  {formatNumber(result.sumX * result.sumY)} ={" "}
-                  <strong>
-                    {formatNumber(
-                      result.n * result.sumXY - result.sumX * result.sumY
-                    )}
-                  </strong>
-                </p>
+              <div className="rounded-lg bg-gray-50 p-4 text-center">
+                <InlineMath math={`${result.n} \\times ${result.sumXY} - ${result.sumX} \\times ${result.sumY} = ${formatNumber(result.n * result.sumXY)} - ${formatNumber(result.sumX * result.sumY)} = \\mathbf{${formatNumber(result.n * result.sumXY - result.sumX * result.sumY)}}`} />
               </div>
               <p className="font-medium">Denominador:</p>
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-center">
-                  {result.n} × {result.sumXSquared} - {result.sumX}² ={" "}
-                  {formatNumber(result.n * result.sumXSquared)} -{" "}
-                  {formatNumber(result.sumX * result.sumX)} ={" "}
-                  <strong>
-                    {formatNumber(
-                      result.n * result.sumXSquared - result.sumX * result.sumX
-                    )}
-                  </strong>
-                </p>
+              <div className="rounded-lg bg-gray-50 p-4 text-center">
+                <InlineMath math={`${result.n} \\times ${result.sumXSquared} - ${result.sumX}^2 = ${formatNumber(result.n * result.sumXSquared)} - ${formatNumber(result.sumX * result.sumX)} = \\mathbf{${formatNumber(result.n * result.sumXSquared - result.sumX * result.sumX)}}`} />
               </div>
               <p className="font-medium">Resultado:</p>
-              <div className="rounded-lg bg-green-50 p-4">
-                <p className="text-center text-lg font-bold">
-                  b₁ = {formatNumber(result.b1, 6)}
-                </p>
+              <div className="rounded-lg bg-green-50 p-4 text-center">
+                <BlockMath math={`b_1 = ${formatNumber(result.b1, 6)}`} />
               </div>
             </div>
           </div>
@@ -215,31 +193,23 @@ export const RegressionResultsDisplay = () => {
           {/* Step 5: Calculate Intercept (b0) */}
           <div className="rounded-lg border p-4">
             <h3 className="mb-4 text-lg font-semibold text-gray-800">
-              Paso 5: Intercepto (b₀)
+              Paso 5: Intercepto <InlineMath math="(b_0)" />
             </h3>
             <div className="space-y-3 text-sm">
               <p className="font-medium">Fórmula:</p>
-              <div className="rounded-lg bg-yellow-50 p-4">
-                <p className="text-center font-mono">b₀ = ȳ - b₁ · x̄</p>
+              <div className="rounded-lg bg-yellow-50 p-4 text-center">
+                <BlockMath math="b_0 = \bar{y} - b_1 \cdot \bar{x}" />
               </div>
               <p className="font-medium">Sustitución:</p>
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-center">
-                  b₀ = {result.meanY} - ({formatNumber(result.b1, 6)} ×{" "}
-                  {result.meanX})
-                </p>
+              <div className="rounded-lg bg-gray-50 p-4 text-center">
+                <InlineMath math={`b_0 = ${result.meanY} - (${formatNumber(result.b1, 6)} \\times ${result.meanX})`} />
               </div>
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-center">
-                  b₀ = {result.meanY} -{" "}
-                  {formatNumber(result.b1 * result.meanX, 6)}
-                </p>
+              <div className="rounded-lg bg-gray-50 p-4 text-center">
+                <InlineMath math={`b_0 = ${result.meanY} - ${formatNumber(result.b1 * result.meanX, 6)}`} />
               </div>
               <p className="font-medium">Resultado:</p>
-              <div className="rounded-lg bg-green-50 p-4">
-                <p className="text-center text-lg font-bold">
-                  b₀ = {formatNumber(result.b0, 6)}
-                </p>
+              <div className="rounded-lg bg-green-50 p-4 text-center">
+                <BlockMath math={`b_0 = ${formatNumber(result.b0, 6)}`} />
               </div>
             </div>
           </div>
@@ -247,27 +217,22 @@ export const RegressionResultsDisplay = () => {
           {/* Step 6: Correlation Coefficient */}
           <div className="rounded-lg border p-4">
             <h3 className="mb-4 text-lg font-semibold text-gray-800">
-              Paso 6: Coeficiente de Correlación (r)
+              Paso 6: Coeficiente de Correlación <InlineMath math="(r)" />
             </h3>
             <div className="space-y-3 text-sm">
               <p className="font-medium">Fórmula:</p>
-              <div className="rounded-lg bg-yellow-50 p-4">
-                <p className="text-center font-mono text-xs md:text-sm">
-                  r = (n · ΣXY - ΣX · ΣY) / √[(n · ΣX² - (ΣX)²) · (n · ΣY² -
-                  (ΣY)²)]
-                </p>
+              <div className="rounded-lg bg-yellow-50 p-4 text-center">
+                <BlockMath math="r = \frac{n \cdot \sum XY - \sum X \cdot \sum Y}{\sqrt{(n \cdot \sum X^2 - (\sum X)^2) \cdot (n \cdot \sum Y^2 - (\sum Y)^2)}}" />
               </div>
               <p className="font-medium">Resultado:</p>
-              <div className="rounded-lg bg-green-50 p-4">
-                <p className="text-center text-lg font-bold">
-                  r = {formatNumber(result.r, 6)}
-                </p>
+              <div className="rounded-lg bg-green-50 p-4 text-center">
+                <BlockMath math={`r = ${formatNumber(result.r, 6)}`} />
               </div>
-              <div className="rounded-lg bg-purple-50 p-4">
-                <p className="text-center">
-                  <strong>r² = {formatNumber(result.rSquared, 6)}</strong>
+              <div className="rounded-lg bg-purple-50 p-4 text-center">
+                <p>
+                  <InlineMath math={`r^2 = ${formatNumber(result.rSquared, 6)}`} />
                 </p>
-                <p className="mt-1 text-center text-xs text-gray-600">
+                <p className="mt-1 text-xs text-gray-600">
                   El {formatNumber(result.rSquared * 100, 2)}% de la variabilidad de Y
                   es explicada por X
                 </p>
@@ -284,7 +249,7 @@ export const RegressionResultsDisplay = () => {
         </h3>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="rounded-lg bg-blue-50 p-4">
-            <p className="text-sm text-gray-600">Pendiente (b₁)</p>
+            <p className="text-sm text-gray-600">Pendiente <InlineMath math="(b_1)" /></p>
             <p className="text-2xl font-bold text-blue-600">
               {formatNumber(result.b1, 6)}
             </p>
@@ -294,7 +259,7 @@ export const RegressionResultsDisplay = () => {
             </p>
           </div>
           <div className="rounded-lg bg-green-50 p-4">
-            <p className="text-sm text-gray-600">Intercepto (b₀)</p>
+            <p className="text-sm text-gray-600">Intercepto <InlineMath math="(b_0)" /></p>
             <p className="text-2xl font-bold text-green-600">
               {formatNumber(result.b0, 6)}
             </p>
@@ -303,7 +268,7 @@ export const RegressionResultsDisplay = () => {
             </p>
           </div>
           <div className="rounded-lg bg-purple-50 p-4">
-            <p className="text-sm text-gray-600">Coeficiente de Correlación (r)</p>
+            <p className="text-sm text-gray-600">Coeficiente de Correlación <InlineMath math="(r)" /></p>
             <p className="text-2xl font-bold text-purple-600">
               {formatNumber(result.r, 6)}
             </p>
@@ -313,7 +278,7 @@ export const RegressionResultsDisplay = () => {
           </div>
           <div className="rounded-lg bg-orange-50 p-4">
             <p className="text-sm text-gray-600">
-              Coeficiente de Determinación (r²)
+              Coeficiente de Determinación <InlineMath math="(r^2)" />
             </p>
             <p className="text-2xl font-bold text-orange-600">
               {formatNumber(result.rSquared, 6)}
@@ -330,9 +295,9 @@ export const RegressionResultsDisplay = () => {
         <h3 className="mb-2 text-center text-lg font-semibold text-gray-800">
           Ecuación Final de la Recta de Regresión
         </h3>
-        <p className="text-center text-3xl font-bold text-blue-600">
-          {result.equation}
-        </p>
+        <div className="text-center text-3xl font-bold text-blue-600">
+          <BlockMath math={`\\hat{y} = ${formatNumber(result.b1, 6)}x ${result.b0 >= 0 ? '+' : '-'} ${formatNumber(Math.abs(result.b0), 6)}`} />
+        </div>
         <p className="mt-4 text-center text-sm text-gray-600">
           Esta ecuación puede usarse para predecir valores de Y a partir de
           valores de X

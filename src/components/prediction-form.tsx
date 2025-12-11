@@ -2,6 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Calculator } from "lucide-react";
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
 
 import { Button } from "@/components/ui/button";
 import {
@@ -90,18 +92,17 @@ export const PredictionForm = () => {
           </h4>
           <div className="space-y-2 text-center">
             <p className="text-sm text-green-700">
-              Para <strong>X = {predictionPoint.x}</strong>
+              Para <InlineMath math={`X = ${predictionPoint.x}`} />
             </p>
             <p className="text-sm text-green-700">
-              Usando la ecuación: <strong>{result.equation}</strong>
+              Usando la ecuación:{" "}
+              <InlineMath math={`\\hat{y} = ${new Decimal(result.b1).toDecimalPlaces(4).toNumber()}x ${result.b0 >= 0 ? '+' : '-'} ${Math.abs(new Decimal(result.b0).toDecimalPlaces(4).toNumber())}`} />
             </p>
             <p className="text-sm text-green-700">
-              ŷ = {new Decimal(result.b1).toDecimalPlaces(4).toNumber()} × {predictionPoint.x}{" "}
-              {result.b0 >= 0 ? "+" : "-"}{" "}
-              {Math.abs(new Decimal(result.b0).toDecimalPlaces(4).toNumber())}
+              <InlineMath math={`\\hat{y} = ${new Decimal(result.b1).toDecimalPlaces(4).toNumber()} \\times ${predictionPoint.x} ${result.b0 >= 0 ? '+' : '-'} ${Math.abs(new Decimal(result.b0).toDecimalPlaces(4).toNumber())}`} />
             </p>
             <p className="mt-2 text-2xl font-bold text-green-600">
-              ŷ = {new Decimal(predictionPoint.y).toDecimalPlaces(4).toNumber()}
+              <InlineMath math={`\\hat{y} = ${new Decimal(predictionPoint.y).toDecimalPlaces(4).toNumber()}`} />
             </p>
           </div>
         </div>

@@ -10,8 +10,11 @@ import {
   ComposedChart,
   ReferenceDot,
 } from "recharts";
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
 import { useRegressionStore } from "@/store/regression-store";
 import { predictY } from "@/lib/linear-regression";
+import { Decimal } from "decimal.js";
 
 // Simple scatter plot for data visualization
 export const DataScatterChart = () => {
@@ -123,7 +126,8 @@ export const RegressionLineChart = () => {
         Diagrama de Dispersión con Línea de Regresión
       </h3>
       <p className="mb-4 text-sm text-gray-600">
-        La línea roja representa la ecuación: <strong>{result.equation}</strong>
+        La línea roja representa la ecuación:{" "}
+        <InlineMath math={`\\hat{y} = ${new Decimal(result.b1).toDecimalPlaces(4).toNumber()}x ${result.b0 >= 0 ? '+' : '-'} ${new Decimal(Math.abs(result.b0)).toDecimalPlaces(4).toNumber()}`} />
       </p>
       <div className="h-[350px] w-full">
         <ResponsiveContainer width="100%" height="100%">

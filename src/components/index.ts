@@ -6,3 +6,4 @@ export * from "./regression-results-display";
 export * from "./calculate-regression-button";
 export * from "./prediction-form";
 export * from "./scatter-charts";
+export * from "./navbar";

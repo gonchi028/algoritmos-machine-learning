@@ -10,6 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useLogisticRegressionStore } from "@/store/logistic-regression-store";
 import {
   interpretPseudoRSquared,
@@ -302,41 +307,85 @@ export const LogisticResultsDisplay = () => {
           </div>
         </div>
         <div className="mt-4 grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
-          <div className="text-center">
-            <p className="text-gray-500">Sensibilidad (Recall)</p>
-            <p className="font-bold">
-              {confusion.tp + confusion.fn > 0
-                ? formatNumber(confusion.tp / (confusion.tp + confusion.fn) * 100, 1)
-                : 0}%
-            </p>
-          </div>
-          <div className="text-center">
-            <p className="text-gray-500">Especificidad</p>
-            <p className="font-bold">
-              {confusion.tn + confusion.fp > 0
-                ? formatNumber(confusion.tn / (confusion.tn + confusion.fp) * 100, 1)
-                : 0}%
-            </p>
-          </div>
-          <div className="text-center">
-            <p className="text-gray-500">Precisión</p>
-            <p className="font-bold">
-              {confusion.tp + confusion.fp > 0
-                ? formatNumber(confusion.tp / (confusion.tp + confusion.fp) * 100, 1)
-                : 0}%
-            </p>
-          </div>
-          <div className="text-center">
-            <p className="text-gray-500">F1-Score</p>
-            <p className="font-bold">
-              {(() => {
-                const precision = confusion.tp / (confusion.tp + confusion.fp) || 0;
-                const recall = confusion.tp / (confusion.tp + confusion.fn) || 0;
-                const f1 = precision + recall > 0 ? 2 * precision * recall / (precision + recall) : 0;
-                return formatNumber(f1 * 100, 1);
-              })()}%
-            </p>
-          </div>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="text-center cursor-help rounded-lg p-2 hover:bg-gray-50 transition-colors">
+                <p className="text-gray-500">Sensibilidad (Recall)</p>
+                <p className="font-bold">
+                  {confusion.tp + confusion.fn > 0
+                    ? formatNumber(confusion.tp / (confusion.tp + confusion.fn) * 100, 1)
+                    : 0}%
+                </p>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-xs bg-white text-gray-800 border shadow-lg p-3">
+              <p className="font-semibold mb-1">Sensibilidad (Recall)</p>
+              <p className="text-xs mb-2">Proporción de positivos reales correctamente identificados</p>
+              <div className="bg-gray-100 rounded p-2 text-center">
+                <InlineMath math={`\\text{Sensibilidad} = \\frac{TP}{TP + FN} = \\frac{${confusion.tp}}{${confusion.tp} + ${confusion.fn}}`} />
+              </div>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="text-center cursor-help rounded-lg p-2 hover:bg-gray-50 transition-colors">
+                <p className="text-gray-500">Especificidad</p>
+                <p className="font-bold">
+                  {confusion.tn + confusion.fp > 0
+                    ? formatNumber(confusion.tn / (confusion.tn + confusion.fp) * 100, 1)
+                    : 0}%
+                </p>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-xs bg-white text-gray-800 border shadow-lg p-3">
+              <p className="font-semibold mb-1">Especificidad</p>
+              <p className="text-xs mb-2">Proporción de negativos reales correctamente identificados</p>
+              <div className="bg-gray-100 rounded p-2 text-center">
+                <InlineMath math={`\\text{Especificidad} = \\frac{TN}{TN + FP} = \\frac{${confusion.tn}}{${confusion.tn} + ${confusion.fp}}`} />
+              </div>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="text-center cursor-help rounded-lg p-2 hover:bg-gray-50 transition-colors">
+                <p className="text-gray-500">Precisión</p>
+                <p className="font-bold">
+                  {confusion.tp + confusion.fp > 0
+                    ? formatNumber(confusion.tp / (confusion.tp + confusion.fp) * 100, 1)
+                    : 0}%
+                </p>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-xs bg-white text-gray-800 border shadow-lg p-3">
+              <p className="font-semibold mb-1">Precisión</p>
+              <p className="text-xs mb-2">Proporción de predicciones positivas que son correctas</p>
+              <div className="bg-gray-100 rounded p-2 text-center">
+                <InlineMath math={`\\text{Precisión} = \\frac{TP}{TP + FP} = \\frac{${confusion.tp}}{${confusion.tp} + ${confusion.fp}}`} />
+              </div>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="text-center cursor-help rounded-lg p-2 hover:bg-gray-50 transition-colors">
+                <p className="text-gray-500">F1-Score</p>
+                <p className="font-bold">
+                  {(() => {
+                    const precision = confusion.tp / (confusion.tp + confusion.fp) || 0;
+                    const recall = confusion.tp / (confusion.tp + confusion.fn) || 0;
+                    const f1 = precision + recall > 0 ? 2 * precision * recall / (precision + recall) : 0;
+                    return formatNumber(f1 * 100, 1);
+                  })()}%
+                </p>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-xs bg-white text-gray-800 border shadow-lg p-3">
+              <p className="font-semibold mb-1">F1-Score</p>
+              <p className="text-xs mb-2">Media armónica de precisión y sensibilidad</p>
+              <div className="bg-gray-100 rounded p-2 text-center">
+                <InlineMath math={`F_1 = 2 \\cdot \\frac{\\text{Precisión} \\cdot \\text{Recall}}{\\text{Precisión} + \\text{Recall}}`} />
+              </div>
+            </TooltipContent>
+          </Tooltip>
         </div>
       </div>
 

@@ -10,6 +10,7 @@ import {
   ComposedChart,
   ReferenceLine,
   ReferenceDot,
+  Legend,
 } from "recharts";
 import { useLogisticRegressionStore } from "@/store/logistic-regression-store";
 import { predictProbability } from "@/lib/logistic-regression";
@@ -81,15 +82,20 @@ export const LogisticDataScatterChart = () => {
                 return null;
               }}
             />
+            <Legend 
+              verticalAlign="top" 
+              height={36}
+              formatter={(value) => <span className="text-sm text-gray-700">{value}</span>}
+            />
             <Scatter
-              name="Clase 0"
+              name="Clase 0 (Negativo)"
               data={dataPoints.filter((p) => p.y === 0)}
               fill="#ef4444"
               stroke="#dc2626"
               strokeWidth={1}
             />
             <Scatter
-              name="Clase 1"
+              name="Clase 1 (Positivo)"
               data={dataPoints.filter((p) => p.y === 1)}
               fill="#22c55e"
               stroke="#16a34a"
@@ -217,9 +223,14 @@ export const LogisticSigmoidChart = () => {
                 fill: "#f59e0b",
               }}
             />
+            <Legend 
+              verticalAlign="top" 
+              height={36}
+              formatter={(value) => <span className="text-sm text-gray-700">{value}</span>}
+            />
             {/* Data points - Class 0 */}
             <Scatter
-              name="Clase 0"
+              name="Clase 0 (Negativo)"
               data={scatterData.filter((p) => p.y === 0)}
               fill="#ef4444"
               stroke="#dc2626"
@@ -227,7 +238,7 @@ export const LogisticSigmoidChart = () => {
             />
             {/* Data points - Class 1 */}
             <Scatter
-              name="Clase 1"
+              name="Clase 1 (Positivo)"
               data={scatterData.filter((p) => p.y === 1)}
               fill="#22c55e"
               stroke="#16a34a"
